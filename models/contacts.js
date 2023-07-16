@@ -7,8 +7,7 @@ const filePath = path.join(__dirname, "contacts.json");
 
 const listContacts = async () => {
   try {
-    const users = await fs.readFile(filePath);
-    const parsedUsers = JSON.parse(users);
+    const parsedUsers = JSON.parse(await fs.readFile(filePath));
     return parsedUsers;
   } catch (err) {
     console.log(err);
@@ -18,8 +17,7 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   try {
-    const users = await fs.readFile(filePath);
-    const parsedUsers = JSON.parse(users);
+    const parsedUsers = JSON.parse(await fs.readFile(filePath));
     const contact = parsedUsers.filter((item) => item.id === contactId);
     return contact;
   } catch (err) {
@@ -30,8 +28,7 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   try {
-    const users = await fs.readFile(filePath);
-    const parsedUsers = JSON.parse(users);
+    const parsedUsers = JSON.parse(await fs.readFile(filePath));
     const contact = parsedUsers.filter((item) => item.id === contactId);
 
     if (contact.length === 0) {
@@ -62,8 +59,7 @@ const addContact = async (body) => {
     const id = nanoid(21);
     const newUser = { id, ...body };
 
-    const users = await fs.readFile(filePath);
-    const parsedUsers = JSON.parse(users);
+    const parsedUsers = JSON.parse(await fs.readFile(filePath));
     parsedUsers.push(newUser);
     await fs.writeFile(filePath, JSON.stringify(parsedUsers));
 

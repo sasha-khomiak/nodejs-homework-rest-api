@@ -9,20 +9,21 @@ const {
   updateContact,
 } = require("../../models/contacts");
 
+const catchAsync = require("../../utils/catchAsync");
+
 // GET ALL CONTACTS
-router.get("/", async (req, res, next) => {
-  try {
+router.get(
+  "/",
+  catchAsync(async (req, res, next) => {
     const result = await listContacts();
     res.status(200).json(result);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-});
+  })
+);
 
 // GET CONTACT BY ID
-router.get("/:contactId", async (req, res, next) => {
-  try {
+router.get(
+  "/:contactId",
+  catchAsync(async (req, res, next) => {
     const { contactId } = req.params;
     const result = await getContactById(contactId);
     if (result.length === 0) {
@@ -30,39 +31,33 @@ router.get("/:contactId", async (req, res, next) => {
       return;
     }
     res.status(200).json(result[0]);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-});
+  })
+);
 
-// ADD NEW CONTACT
-router.post("/", async (req, res, next) => {
-  try {
+// ADD NEW CONTACT BY BODY JSON
+router.post(
+  "/",
+  catchAsync(async (req, res, next) => {
     const body = req.body;
     const { status, obj } = await addContact(body);
     res.status(status).json(obj);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-});
+  })
+);
 
 // REMOVE CONTACT BY ID
-router.delete("/:contactId", async (req, res, next) => {
-  try {
+router.delete(
+  "/:contactId",
+  catchAsync(async (req, res, next) => {
     const { contactId } = req.params;
     const { status, obj } = await removeContact(contactId);
     res.status(status).json(obj);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-});
+  })
+);
 
-// UPDATE CONTACT BY ID
-router.put("/:contactId", async (req, res, next) => {
-  try {
+// UPDATE CONTACT BY ID AND BODY JSON
+router.put(
+  "/:contactId",
+  catchAsync(async (req, res, next) => {
     const { contactId } = req.params;
     const body = req.body;
 
@@ -77,10 +72,7 @@ router.put("/:contactId", async (req, res, next) => {
 
     const { status, obj } = await updateContact(contactId, body);
     res.status(status).json(obj);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-});
+  })
+);
 
 module.exports = router;
