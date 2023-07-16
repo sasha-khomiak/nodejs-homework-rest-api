@@ -72,6 +72,16 @@ const addContact = async (body) => {
 
 const updateContact = async (contactId, body) => {
   try {
+    if (!body.name) {
+      return { status: 400, obj: { message: "missing required name field" } };
+    }
+    if (!body.email) {
+      return { status: 400, obj: { message: "missing required email field" } };
+    }
+    if (!body.phone) {
+      return { status: 400, obj: { message: "missing required phone field" } };
+    }
+
     const parsedUsers = JSON.parse(await fs.readFile(filePath));
     const contact = parsedUsers.filter((item) => item.id === contactId);
 

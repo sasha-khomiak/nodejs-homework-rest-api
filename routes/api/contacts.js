@@ -10,6 +10,7 @@ const {
 } = require("../../models/contacts");
 
 const catchAsync = require("../../utils/catchAsync");
+// const createUserDataValidator = require("../../utils/userValidator");
 
 // GET ALL CONTACTS
 router.get(
@@ -39,6 +40,16 @@ router.post(
   "/",
   catchAsync(async (req, res, next) => {
     const body = req.body;
+
+    if (
+      body.name === undefined &&
+      body.email === undefined &&
+      body.phone === undefined
+    ) {
+      res.status(400).json({ message: "missing fields" });
+      return;
+    }
+
     const { status, obj } = await addContact(body);
     res.status(status).json(obj);
   })
@@ -62,8 +73,8 @@ router.put(
     const body = req.body;
 
     if (
-      body.name === undefined ||
-      body.email === undefined ||
+      body.name === undefined &&
+      body.email === undefined &&
       body.phone === undefined
     ) {
       res.status(400).json({ message: "missing fields" });
