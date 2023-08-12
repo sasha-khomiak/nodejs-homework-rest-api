@@ -18,6 +18,14 @@ const userSchema = new Schema({
     default: "starter",
   },
   token: String,
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, "Verify token is required"],
+  },
 });
 
 // Pre save mongoose hook. Fires on Create and Save.

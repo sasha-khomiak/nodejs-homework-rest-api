@@ -48,3 +48,10 @@ exports.loginUserDataValidator = (data) =>
       password: Joi.string().required(),
     })
     .validate(data);
+
+exports.emailValidator = (data) =>
+  Joi.object()
+    .keys({
+      email: Joi.string().email().required(),
+    })
+    .validate(data);

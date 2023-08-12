@@ -14,6 +14,8 @@ const {
   currentUser,
   logoutUser,
   changeUserAvatar,
+  verifyEmail,
+  repeatedVerifyEmail,
 } = require("../controllers/usersControllers");
 
 // REGISTRATION ROUTE
@@ -30,5 +32,11 @@ router.get("/current", protect, currentUser);
 
 // CHANGE AVATAR FOR CUSTOM IMAGE
 router.patch("/avatars", protect, uploadUserAvatar, changeUserAvatar);
+
+// VERIFICATION EMAIL BY LINK WITH VERIFICATION TOKEN
+router.get("/verify/:verificationToken", verifyEmail);
+
+// REPEATE SEND OF VERIFICATION TOKEN
+router.post("/verify", repeatedVerifyEmail);
 
 module.exports = router;
