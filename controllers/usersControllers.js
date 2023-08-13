@@ -52,6 +52,9 @@ exports.loginUser = cathAsync(async (req, res) => {
   const user = await User.findOne({ email }).select("+password");
   if (!user) throw new AppError(401, "Email or password is wrong");
 
+  if (!user.verify)
+    throw new AppError(401, "Not authorized (Email is not verify)");
+
   const passwordIsValid = await bcrypt.compare(password, user.password);
   if (!passwordIsValid) throw new AppError(401, "Email or password is wrong");
 
